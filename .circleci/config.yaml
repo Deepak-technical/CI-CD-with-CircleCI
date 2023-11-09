@@ -1,0 +1,22 @@
+jobs:
+  build:
+    docker:
+      - image: circleci/node:14
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies
+          command: npm install
+
+      - run:
+          name: Run tests
+          command: npm test
+
+      - run:
+          name: Build and push Docker image
+          command: |
+            docker build -t your-dockerhub-username/your-react-app-name .
+            docker login -u "$DOCKERHUB_USERNAME" -p "$DOCKERHUB_PASSWORD"
+            docker push your-dockerhub-username/your-react-app-name
